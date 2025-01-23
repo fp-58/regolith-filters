@@ -1,0 +1,10 @@
+{
+  "description": "A filter that installs and runs Bridge's dash compiler.",
+  "exportData": true,
+  "filters": [
+    {
+      "runWith": "deno",
+      "script": "./dash.ts"
+    }
+  ]
+}
