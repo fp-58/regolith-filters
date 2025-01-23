@@ -49,13 +49,23 @@ export async function installDash(
     if (dashBin.ok) {
       await Deno.writeFile(installPath, dashBin.body!);
     } else {
-      console.error(
-        `Error while downloading prebuilt binary for dash version ${version}`,
-      );
-      if (dashBin.statusText) {
-        console.error(`HTTP ${dashBin.status}: ${dashBin.statusText}`);
+      if (dashBin.status == 404) {
+        console.error(
+          "Received HTTP 404 status while downloading prebuilt dash binary.",
+        );
+        console.log("Falling back to compiling from source.");
+        if (await compileDash(version, installPath)) {
+          return installPath;
+        }
       } else {
-        console.error(`HTTP ${dashBin.status}`);
+        console.error(
+          `Error while downloading prebuilt binary for dash version ${version}`,
+        );
+        if (dashBin.statusText) {
+          console.error(`HTTP ${dashBin.status}: ${dashBin.statusText}`);
+        } else {
+          console.error(`HTTP ${dashBin.status}`);
+        }
       }
       return null;
     }
