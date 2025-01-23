@@ -1,0 +1,9 @@
+{
+  "exportData": true,
+  "filters": [
+    {
+      "runWith": "deno",
+      "script": "./dash.ts"
+    }
+  ]
+}

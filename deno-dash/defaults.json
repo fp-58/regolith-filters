@@ -1,0 +1,6 @@
+{
+  "useGlobalDash": false,
+  "globalDashCommand": "dash_compiler",
+  "dashVersion": "*",
+  "autoUpdate": false
+}
