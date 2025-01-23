@@ -1,11 +1,22 @@
 import { join, resolve } from "@std/path";
 import { DASH_BIN_PREFIX, DASH_GITHUB_REPO } from "./constants.ts";
+import { compare as compareVersions, parse as parseVersion } from "@std/semver";
 
 export function getDashName(version: string): string {
   return DASH_BIN_PREFIX + version;
 }
 
-function getDashUrl(version: string) {
+function getDashBinaryUrl(version: string) {
+  if (
+    compareVersions(
+      parseVersion(version),
+      { major: 0, minor: 4, patch: 2 },
+    ) == -1
+  ) {
+    // Versions before 0.4.2 don't have prebuilt binary.
+    return null;
+  }
+
   const urlPrefix =
     `https://github.com/${DASH_GITHUB_REPO}/releases/download/v${version}/dash`;
 
@@ -32,20 +43,39 @@ export async function installDash(
 ): Promise<string | null> {
   console.log(`Installing dash version ${version} into ${binDir}`);
   const installPath = join(binDir, getDashName(version));
-  const dashUrl = getDashUrl(version);
+  const dashUrl = getDashBinaryUrl(version);
   if (dashUrl) {
     const dashBin = await fetch(dashUrl);
-    await Deno.writeFile(installPath, dashBin.body!);
+    if (dashBin.ok) {
+      await Deno.writeFile(installPath, dashBin.body!);
+    } else {
+      if (dashBin.status == 404) {
+        console.error(
+          "Received HTTP 404 status while downloading prebuilt dash binary.",
+        );
+        console.log("Falling back to compiling from source.");
+        if (await compileDash(version, installPath)) {
+          return installPath;
+        }
+      } else {
+        console.error(
+          `Error while downloading prebuilt binary for dash version ${version}`,
+        );
+        if (dashBin.statusText) {
+          console.error(`HTTP ${dashBin.status}: ${dashBin.statusText}`);
+        } else {
+          console.error(`HTTP ${dashBin.status}`);
+        }
+      }
+      return null;
+    }
   } else {
     console.log(
       "No prebuilt dash binary found for the current platform. Compiling from source.",
     );
 
     if (
-      !await compileDash(
-        `https://raw.githubusercontent.com/bridge-core/deno-dash-compiler/refs/tags/v${version}/mod.ts`,
-        installPath,
-      )
+      !await compileDash(version, installPath)
     ) {
       return null;
     }
@@ -54,7 +84,17 @@ export async function installDash(
   return installPath;
 }
 
-async function compileDash(srcUrl: string, outFile: string) {
+function getDashScriptUrl(version: string) {
+  const urlPrefix =
+    "https://raw.githubusercontent.com/bridge-core/deno-dash-compiler/refs/tags/v";
+  if (version === "0.1.0") {
+    return `${urlPrefix}${version}/src/main.ts`;
+  } else {
+    return `${urlPrefix}${version}/mod.ts`;
+  }
+}
+
+async function compileDash(version: string, outFile: string) {
   const compileCommand = new Deno.Command("deno", {
     args: [
       "compile",
@@ -64,7 +104,7 @@ async function compileDash(srcUrl: string, outFile: string) {
       "--output",
       resolve(outFile),
       "-A",
-      srcUrl,
+      getDashScriptUrl(version),
     ],
     stdout: "inherit",
     stderr: "inherit",
