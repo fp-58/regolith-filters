@@ -35,7 +35,19 @@ export async function installDash(
   const dashUrl = getDashBinaryUrl(version);
   if (dashUrl) {
     const dashBin = await fetch(dashUrl);
-    await Deno.writeFile(installPath, dashBin.body!);
+    if (dashBin.ok) {
+      await Deno.writeFile(installPath, dashBin.body!);
+    } else {
+      console.error(
+        `Error while downloading prebuilt binary for dash version ${version}`,
+      );
+      if (dashBin.statusText) {
+        console.error(`HTTP ${dashBin.status}: ${dashBin.statusText}`);
+      } else {
+        console.error(`HTTP ${dashBin.status}`);
+      }
+      return null;
+    }
   } else {
     console.log(
       "No prebuilt dash binary found for the current platform. Compiling from source.",
