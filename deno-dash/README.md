@@ -3,14 +3,10 @@
 A filter for installing and running Bridge's
 [standalone Dash compiler](https://github.com/bridge-core/deno-dash-compiler).
 
-Supports any version of Dash for Windows and Mac, but only supports version
-1.0.0 or greater for any other system. This is because on systems other than
-Windows or Mac, the Dash compiler has to be compiled from source using Deno v2
-and previous versions of Dash were compiled with Deno v1.
-
 ## Before running
 
-- Make sure you have Deno v2 installed.
+- Make sure you have Deno installed (both to run the filter and compile Dash if
+  necessary).
 - Make sure your project's `config.json` has a `"compiler"` key so Dash actually
   runs.
 

@@ -5,7 +5,7 @@ export function getDashName(version: string): string {
   return DASH_BIN_PREFIX + version;
 }
 
-function getDashUrl(version: string) {
+function getDashBinaryUrl(version: string) {
   const urlPrefix =
     `https://github.com/${DASH_GITHUB_REPO}/releases/download/v${version}/dash`;
 
@@ -32,7 +32,7 @@ export async function installDash(
 ): Promise<string | null> {
   console.log(`Installing dash version ${version} into ${binDir}`);
   const installPath = join(binDir, getDashName(version));
-  const dashUrl = getDashUrl(version);
+  const dashUrl = getDashBinaryUrl(version);
   if (dashUrl) {
     const dashBin = await fetch(dashUrl);
     await Deno.writeFile(installPath, dashBin.body!);
@@ -42,10 +42,7 @@ export async function installDash(
     );
 
     if (
-      !await compileDash(
-        `https://raw.githubusercontent.com/bridge-core/deno-dash-compiler/refs/tags/v${version}/mod.ts`,
-        installPath,
-      )
+      !await compileDash(version, installPath)
     ) {
       return null;
     }
@@ -54,7 +51,17 @@ export async function installDash(
   return installPath;
 }
 
-async function compileDash(srcUrl: string, outFile: string) {
+function getDashScriptUrl(version: string) {
+  const urlPrefix =
+    "https://raw.githubusercontent.com/bridge-core/deno-dash-compiler/refs/tags/v";
+  if (version === "0.1.0") {
+    return `${urlPrefix}${version}/src/main.ts`;
+  } else {
+    return `${urlPrefix}${version}/mod.ts`;
+  }
+}
+
+async function compileDash(version: string, outFile: string) {
   const compileCommand = new Deno.Command("deno", {
     args: [
       "compile",
@@ -64,7 +71,7 @@ async function compileDash(srcUrl: string, outFile: string) {
       "--output",
       resolve(outFile),
       "-A",
-      srcUrl,
+      getDashScriptUrl(version),
     ],
     stdout: "inherit",
     stderr: "inherit",
