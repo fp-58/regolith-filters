@@ -1,4 +1,5 @@
 {
+  "description": "A filter that installs and runs Bridge's dash compiler.",
   "exportData": true,
   "filters": [
     {
