@@ -1,11 +1,22 @@
 import { join, resolve } from "@std/path";
 import { DASH_BIN_PREFIX, DASH_GITHUB_REPO } from "./constants.ts";
+import { compare as compareVersions, parse as parseVersion } from "@std/semver";
 
 export function getDashName(version: string): string {
   return DASH_BIN_PREFIX + version;
 }
 
 function getDashBinaryUrl(version: string) {
+  if (
+    compareVersions(
+      parseVersion(version),
+      { major: 0, minor: 4, patch: 2 },
+    ) == -1
+  ) {
+    // Versions before 0.4.2 don't have prebuilt binary.
+    return null;
+  }
+
   const urlPrefix =
     `https://github.com/${DASH_GITHUB_REPO}/releases/download/v${version}/dash`;
 
