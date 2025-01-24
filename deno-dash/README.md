@@ -20,6 +20,8 @@ are available:
   global Dash installation.
 - globalDashCommand: The command to run if `useGlobalDash` is `true`. Default is
   `"dash_compiler"`
+- dashGithubRepository: The repository to install Dash from. Default is
+  `"bridge-core/deno-dash-compiler"`.
 - dashVersion: The version of Dash to install. This is a semantic version
   specifier similar to the ones used by npm. Default is `"*"` (any version).
 - autoUpdate: Whether to automatically update Dash to the latest version that
@@ -31,6 +33,7 @@ are available:
 {
   "useGlobalDash": false,
   "globalDashCommand": "dash_compiler",
+  "dashGithubRepository": "bridge-core/deno-dash-compiler",
   "dashVersion": "*",
   "autoUpdate": false
 }
