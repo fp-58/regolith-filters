@@ -47,6 +47,7 @@ if (import.meta.main) {
     dashCommandPath = await findOrInstallLocalDash(
       parseRange(filterConfig.dashVersion),
       filterConfig.autoUpdate,
+      filterConfig.dashGithubRepository,
     );
   }
   if (!dashCommandPath) {
@@ -83,6 +84,7 @@ if (import.meta.main) {
 async function findOrInstallLocalDash(
   versionRange: VerRange,
   autoUpdate: boolean,
+  dashRepo: string,
 ): Promise<string | null> {
   await Deno.mkdir(binDir, { recursive: true });
 
@@ -93,7 +95,7 @@ async function findOrInstallLocalDash(
   );
 
   if (!usableVersion) {
-    const allVersions = await getAllVersions();
+    const allVersions = await getAllVersions(dashRepo);
     if (allVersions) {
       usableVersion = maxSatisfying(
         allVersions.map(parseVer),
@@ -102,6 +104,7 @@ async function findOrInstallLocalDash(
       if (usableVersion) {
         return await installDash(
           binDir,
+          dashRepo,
           formatVer(usableVersion),
         );
       } else {
@@ -113,7 +116,7 @@ async function findOrInstallLocalDash(
     return null;
   } else {
     if (autoUpdate) {
-      const allVersions = await getAllVersions();
+      const allVersions = await getAllVersions(dashRepo);
       if (allVersions) {
         const newVersion = maxSatisfying(
           allVersions.map(parseVer),
@@ -122,7 +125,11 @@ async function findOrInstallLocalDash(
         if (newVersion && compareVers(newVersion, usableVersion) > 0) {
           const newVerStr = formatVer(newVersion);
           console.log(`Found newer dash version ${newVerStr}.`);
-          const dashCommandPath = await installDash(binDir, newVerStr);
+          const dashCommandPath = await installDash(
+            binDir,
+            dashRepo,
+            newVerStr,
+          );
           if (dashCommandPath) {
             await uninstallDash(binDir, formatVer(usableVersion));
           }

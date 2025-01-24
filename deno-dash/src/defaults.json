@@ -1,6 +1,7 @@
 {
   "useGlobalDash": false,
   "globalDashCommand": "dash_compiler",
+  "dashGithubRepository": "bridge-core/deno-dash-compiler",
   "dashVersion": "*",
   "autoUpdate": false
 }
