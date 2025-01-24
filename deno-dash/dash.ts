@@ -13,14 +13,14 @@ import {
   getInstalledVersions,
   installDash,
   uninstallDash,
-} from "./installer.ts";
-import { DASH_BIN_PREFIX, FILTER_NAME } from "./constants.ts";
-import { readJsonFile } from "./utils.ts";
+} from "./src/installer.ts";
+import { DASH_BIN_PREFIX, FILTER_NAME } from "./src/constants.ts";
+import { readJsonFile } from "./src/utils.ts";
 import {
   checkProjectConfig,
   loadFilterConfig,
   prepareProjectConfig,
-} from "./config.ts";
+} from "./src/config.ts";
 
 const dataDir = join("data", FILTER_NAME);
 const binDir = join(dataDir, "bin");
