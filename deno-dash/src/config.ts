@@ -1,5 +1,5 @@
 import defaultConfig from "./defaults.json" with { type: "json" };
-import { readJsonFile } from "./utils.ts";
+import { readJsonFile } from "../src/utils.ts";
 
 export async function loadFilterConfig(
   configFile: string,

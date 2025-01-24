@@ -1,12 +1,12 @@
 import { join, resolve } from "@std/path";
-import { DASH_BIN_PREFIX, DASH_GITHUB_REPO } from "./constants.ts";
+import { DASH_BIN_PREFIX } from "./constants.ts";
 import { compare as compareVersions, parse as parseVersion } from "@std/semver";
 
 export function getDashName(version: string): string {
   return DASH_BIN_PREFIX + version;
 }
 
-function getDashBinaryUrl(version: string) {
+function getDashBinaryUrl(repo: string, version: string) {
   if (
     compareVersions(
       parseVersion(version),
@@ -18,7 +18,7 @@ function getDashBinaryUrl(version: string) {
   }
 
   const urlPrefix =
-    `https://github.com/${DASH_GITHUB_REPO}/releases/download/v${version}/dash`;
+    `https://github.com/${repo}/releases/download/v${version}/dash`;
 
   switch (Deno.build.os) {
     case "darwin":
@@ -39,11 +39,12 @@ function getDashBinaryUrl(version: string) {
 
 export async function installDash(
   binDir: string,
+  repo: string,
   version: string,
 ): Promise<string | null> {
   console.log(`Installing dash version ${version} into ${binDir}`);
   const installPath = join(binDir, getDashName(version));
-  const dashUrl = getDashBinaryUrl(version);
+  const dashUrl = getDashBinaryUrl(repo, version);
   if (dashUrl) {
     const dashBin = await fetch(dashUrl);
     if (dashBin.ok) {
@@ -135,9 +136,9 @@ interface GithubTagInfo {
   name: string;
 }
 
-export async function getAllVersions() {
+export async function getAllVersions(repo: string) {
   const apiRes = await fetch(
-    `https://api.github.com/repos/${DASH_GITHUB_REPO}/tags`,
+    `https://api.github.com/repos/${repo}/tags`,
   );
   if (!apiRes.ok) {
     console.error("Failed to fetch version info for dash from Github.");
