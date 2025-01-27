@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "@bridge-editor/common-utils": "https://esm.sh/@bridge-editor/common-utils@^0.3.3",
+    "@bridge-editor/dash-compiler": "https://esm.sh/@bridge-editor/dash-compiler@0.11.7",
+    "@bridge-editor/mc-project-core": "https://esm.sh/@bridge-editor/mc-project-core@^0.4.0",
+    "@std/crypto": "jsr:@std/crypto@^1.0.3",
+    "@std/encoding": "jsr:@std/encoding@^1.0.6",
+    "@std/path": "jsr:@std/path@^1.0.8",
+    "json5": "https://esm.sh/json5@^2.2.0"
+  }
+}
