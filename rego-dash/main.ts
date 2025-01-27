@@ -84,8 +84,6 @@ if (import.meta.main) {
     Deno.mkdir("BP").then(() => copyDir(join(fileCacheDir, "BP"), "BP")),
     Deno.mkdir("RP").then(() => copyDir(join(fileCacheDir, "RP"), "RP")),
   ]);
-
-  Deno.exit(127);
 }
 
 function createDashService(
