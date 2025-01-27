@@ -1,0 +1,87 @@
+{
+  "version": "4",
+  "specifiers": {
+    "jsr:@std/crypto@^1.0.3": "1.0.3",
+    "jsr:@std/encoding@^1.0.6": "1.0.6",
+    "jsr:@std/path@^1.0.8": "1.0.8",
+    "npm:@types/node@*": "22.5.4"
+  },
+  "jsr": {
+    "@std/crypto@1.0.3": {
+      "integrity": "a2a32f51ddef632d299e3879cd027c630dcd4d1d9a5285d6e6788072f4e51e7f"
+    },
+    "@std/encoding@1.0.6": {
+      "integrity": "ca87122c196e8831737d9547acf001766618e78cd8c33920776c7f5885546069"
+    },
+    "@std/path@1.0.8": {
+      "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
+    }
+  },
+  "npm": {
+    "@types/node@22.5.4": {
+      "integrity": "sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
+    "undici-types@6.19.8": {
+      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
+    }
+  },
+  "redirects": {
+    "https://esm.sh/@bridge-editor/common-utils@^0.3.3": "https://esm.sh/@bridge-editor/common-utils@0.3.3",
+    "https://esm.sh/@bridge-editor/common-utils@^0.3.3?target=denonext": "https://esm.sh/@bridge-editor/common-utils@0.3.3?target=denonext",
+    "https://esm.sh/@bridge-editor/js-runtime@^0.4.5?target=denonext": "https://esm.sh/@bridge-editor/js-runtime@0.4.5?target=denonext",
+    "https://esm.sh/@bridge-editor/mc-project-core@^0.4.0": "https://esm.sh/@bridge-editor/mc-project-core@0.4.0",
+    "https://esm.sh/@bridge-editor/mc-project-core@^0.4.0?target=denonext": "https://esm.sh/@bridge-editor/mc-project-core@0.4.0?target=denonext",
+    "https://esm.sh/@bridge-editor/molang@^2.0.2?target=denonext": "https://esm.sh/@bridge-editor/molang@2.0.2?target=denonext",
+    "https://esm.sh/@types/is-extglob@~2.1.0/index.d.ts": "https://esm.sh/@types/is-extglob@2.1.0/index.d.ts",
+    "https://esm.sh/@types/is-glob@~4.0.4/index.d.ts": "https://esm.sh/@types/is-glob@4.0.4/index.d.ts",
+    "https://esm.sh/@types/path-browserify@~1.0.3/index.d.ts": "https://esm.sh/@types/path-browserify@1.0.3/index.d.ts",
+    "https://esm.sh/is-extglob@^2.1.1?target=denonext": "https://esm.sh/is-extglob@2.1.1?target=denonext",
+    "https://esm.sh/is-glob@^4.0.3?target=denonext": "https://esm.sh/is-glob@4.0.3?target=denonext",
+    "https://esm.sh/json5@^2.2.0": "https://esm.sh/json5@2.2.3",
+    "https://esm.sh/json5@^2.2.0?target=denonext": "https://esm.sh/json5@2.2.3?target=denonext",
+    "https://esm.sh/json5@^2.2.1?target=denonext": "https://esm.sh/json5@2.2.3?target=denonext",
+    "https://esm.sh/magic-string@^0.26.2?target=denonext": "https://esm.sh/magic-string@0.26.7?target=denonext",
+    "https://esm.sh/path-browserify@^1.0.1?target=denonext": "https://esm.sh/path-browserify@1.0.1?target=denonext",
+    "https://esm.sh/sourcemap-codec@^1.4.8?target=denonext": "https://esm.sh/sourcemap-codec@1.4.8?target=denonext"
+  },
+  "remote": {
+    "https://esm.sh/@bridge-editor/common-utils@0.3.3": "041dff997849a71eb7bde4dfe97fed3fe83bf1ae0b390cd725916038d29a4597",
+    "https://esm.sh/@bridge-editor/common-utils@0.3.3/denonext/common-utils.mjs": "74445c7dc6158d701fd24e1c59e586d1c24432c4a6006e169865856116a9f5d1",
+    "https://esm.sh/@bridge-editor/common-utils@0.3.3?target=denonext": "041dff997849a71eb7bde4dfe97fed3fe83bf1ae0b390cd725916038d29a4597",
+    "https://esm.sh/@bridge-editor/dash-compiler@0.11.7": "68a8fbae8e354b61f0526ecc436c529bb480a6a3376b1b7f5c037b18ffeb053c",
+    "https://esm.sh/@bridge-editor/dash-compiler@0.11.7/denonext/dash-compiler.mjs": "7e12ff7bb80eac2efeee1c199f323b7af19374b9166b541316d016d222ceac1d",
+    "https://esm.sh/@bridge-editor/js-runtime@0.4.5/denonext/js-runtime.mjs": "fad1078fa1e547bff2a0b2bfb1b176b2310a225ed7d74e534c1d092c7ef90727",
+    "https://esm.sh/@bridge-editor/js-runtime@0.4.5?target=denonext": "ecc0ce4109c6475de778a9717d52480598244d46530be0138f7d3fc7c9e38734",
+    "https://esm.sh/@bridge-editor/mc-project-core@0.4.0": "f31f22d273e4854c3fc2d140c438c14cc1d6c95bf08d5b1a805c331e874fae95",
+    "https://esm.sh/@bridge-editor/mc-project-core@0.4.0/denonext/mc-project-core.mjs": "6c61655a233c905ccd57bb2582b88d059b80228f7c104d9eaeeaa1157b7d5de9",
+    "https://esm.sh/@bridge-editor/mc-project-core@0.4.0?target=denonext": "f31f22d273e4854c3fc2d140c438c14cc1d6c95bf08d5b1a805c331e874fae95",
+    "https://esm.sh/@bridge-editor/molang@2.0.2/denonext/molang.mjs": "eb330931a034384abd7073b942c555809882bb3dfa8528f76404ee5f39dfbce7",
+    "https://esm.sh/@bridge-editor/molang@2.0.2?target=denonext": "8aa3af47d6d4cedc96c55e2f57a4494f0847ffdb8d60251cb3edeb09070bc19e",
+    "https://esm.sh/@swc/wasm-web@1.6.5": "87908252b3867e0c12beb30178fc5dfca344b451496f295c08608ad6100d6a8a",
+    "https://esm.sh/@swc/wasm-web@1.6.5/denonext/wasm-web.mjs": "0b23749510207d345775dc7a1ab8cdc96b33b7d487eafc553cad5ebb502ed33c",
+    "https://esm.sh/is-extglob@2.1.1/denonext/is-extglob.mjs": "adbceb33b529cc88849ee39364a0eea16088cefb795221d3be31c7d6c2b7a47d",
+    "https://esm.sh/is-extglob@2.1.1?target=denonext": "cc21d63edf9dcc600d613af9dc30eeac8c8ee324104dab9f978fa567ec8f3ae4",
+    "https://esm.sh/is-glob@4.0.3/denonext/is-glob.mjs": "4555ca21a3af8a883c44c977fd1ff03be73dd7927dea188443992d01749b845d",
+    "https://esm.sh/is-glob@4.0.3?target=denonext": "5fef477a765ea5f14bff33ee18156cd8398e8fba5fea6fa636ebe2280349e3ce",
+    "https://esm.sh/json5@2.2.3": "13758d23e57a88c7448f62ea1bc6e8ef9be09be041d7f6de612bb8cb335ec331",
+    "https://esm.sh/json5@2.2.3/denonext/json5.mjs": "e92f247136c4293d510068444ca724572ae85eecaf1799c322d11f4448ee87a1",
+    "https://esm.sh/json5@2.2.3?target=denonext": "13758d23e57a88c7448f62ea1bc6e8ef9be09be041d7f6de612bb8cb335ec331",
+    "https://esm.sh/magic-string@0.26.7/denonext/magic-string.mjs": "2a9012145ce6fb531890a10739b4df175773cc108f49c497f648afd6a6c1494a",
+    "https://esm.sh/magic-string@0.26.7?target=denonext": "a3cf72805a6c72dcc545a1f3bc90fc5043d1c8d4ce5539e19c3c3f578b5b7564",
+    "https://esm.sh/path-browserify@1.0.1/denonext/path-browserify.mjs": "885742678dd46f40859ea8eea872c92ae863e0977a77e1bf3ad261c37b01f303",
+    "https://esm.sh/path-browserify@1.0.1?target=denonext": "e15a6ce89fc35cf0f38789778a020a3cae1430b5c27fcd7e9e6639a2813603ec",
+    "https://esm.sh/sourcemap-codec@1.4.8/denonext/sourcemap-codec.mjs": "091422cba0080444b95aeed9ed6fdfc89bfd591625c74c29b958e4b09fdc7ac2",
+    "https://esm.sh/sourcemap-codec@1.4.8?target=denonext": "2d592049767f5f51140c1c31d8ea17892044bc2b56a0751268f28fe80f397f5c",
+    "https://unpkg.com/@bridge-editor/dash-compiler@0.11.7/dist/dash-compiler.bundled.es.js": "fffac9708805c765df2d2b4276b90ed1aad2ceb0d8a1cf506babeca2dc131dcc"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/crypto@^1.0.3",
+      "jsr:@std/encoding@^1.0.6",
+      "jsr:@std/path@^1.0.8"
+    ]
+  }
+}
