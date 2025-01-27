@@ -1,0 +1,10 @@
+{
+  "description": "A fast caching filter that compiles files using Bridge's dash compiler library.",
+  "exportData": true,
+  "filters": [
+    {
+      "runWith": "deno",
+      "script": "./main.ts"
+    }
+  ]
+}
