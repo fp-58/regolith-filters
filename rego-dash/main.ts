@@ -1,7 +1,7 @@
 import { isMatch } from "@bridge-editor/common-utils";
 // @deno-types = "https://esm.sh/@bridge-editor/dash-compiler@0.11.7"
 import { Dash, initRuntimes } from "@bridge-editor/dash-compiler";
-import { join } from "@std/path/join";
+import { dirname, join } from "@std/path";
 import { FileTypeImpl, PackTypeImpl, requestJsonData } from "./src/denoDash.ts";
 import { MappedFileSystem } from "./src/fileSystem.ts";
 import { FILTER_NAME, HASHES_FILE_NAME, SWC_VERSION } from "./src/constants.ts";
@@ -14,6 +14,7 @@ import {
   removeIfExists,
 } from "./src/ioUtils.ts";
 import { sourceDiff } from "./src/diff.ts";
+import { MAX_DATA_CACHE_LIFE } from "./src/constants.ts";
 
 if (import.meta.main) {
   const srcDir = "src";
@@ -23,6 +24,7 @@ if (import.meta.main) {
   const sourceHashesFile = join(cacheDir, HASHES_FILE_NAME);
   const dashDataFile = join(cacheDir, "dashData.json");
   const fileCacheDir = join(cacheDir, "files");
+  const dataCacheDir = join(cacheDir, "data");
 
   const rootDir = Deno.env.get("ROOT_DIR");
   if (!rootDir) {
@@ -44,8 +46,8 @@ if (import.meta.main) {
   let expectedHashes;
   if (await pathExists(lockFile)) {
     expectedHashes = [];
-    // If the session lock file still exists then the cache is probably
-    // corrupted, so we need to remove its files.
+    // If the session lock file still exists then the files edited by dash are
+    // probably corrupted, so we need to remove them.
     await Promise.all([
       removeIfExists(fileCacheDir, { recursive: true }),
       removeIfExists(dashDataFile),
@@ -66,6 +68,7 @@ if (import.meta.main) {
   const dash = createDashService(
     srcDir,
     fileCacheDir,
+    dataCacheDir,
     dashDataFile,
     projectConfig,
   );
@@ -89,6 +92,7 @@ if (import.meta.main) {
 function createDashService(
   srcDir: string,
   fileCacheDir: string,
+  dataCacheDir: string,
   dashDataFile: string,
   projectConfig: object,
 ) {
@@ -111,8 +115,54 @@ function createDashService(
     fileType: new FileTypeImpl(undefined, isMatch) as any,
     // deno-lint-ignore no-explicit-any
     packType: new PackTypeImpl(undefined) as any,
-    requestJsonData,
+    requestJsonData: (dataPath: string) =>
+      requestCachedJsonData(dataCacheDir, dataPath),
     mode: "development",
     verbose: true,
   });
+}
+
+async function requestCachedJsonData(dataCacheDir: string, dataPath: string) {
+  const cachedPath = join(
+    dataCacheDir,
+    // Remove leading 'data' since that should already be in dataCacheDir.
+    dataPath.replace(/^data[/\\]/, ""),
+  );
+
+  try {
+    const cachedFile = await Deno.open(cachedPath);
+    const fileInfo = await cachedFile.stat();
+    const mtime = fileInfo.mtime?.getTime() ?? 0;
+
+    if (Date.now() - mtime < MAX_DATA_CACHE_LIFE) {
+      const cachedResponse = new Response(cachedFile.readable);
+      return await cachedResponse.json();
+    } else {
+      // Surround this in a try-catch since requestJsonData can throw errors
+      // when there are network connectivity errors (such as timeouts).
+      try {
+        return await updateCachedJsonData(dataPath, cachedPath);
+      } catch (error) {
+        console.error(error);
+        console.warn(`Failed to update cached value for ${dataPath}`);
+        console.warn(`Using stale content for ${dataPath}`);
+
+        const cachedResponse = new Response(cachedFile.readable);
+        return await cachedResponse.json();
+      }
+    }
+  } catch (error) {
+    if (error instanceof Deno.errors.NotFound) {
+      return await updateCachedJsonData(dataPath, cachedPath);
+    } else {
+      throw error;
+    }
+  }
+}
+
+async function updateCachedJsonData(dataPath: string, cachedPath: string) {
+  const updatedContent = await requestJsonData(dataPath);
+  await Deno.mkdir(dirname(cachedPath), { recursive: true });
+  await Deno.writeTextFile(cachedPath, JSON.stringify(updatedContent));
+  return updatedContent;
 }
