@@ -61,6 +61,10 @@ if (import.meta.main) {
     srcDir,
   );
 
+  console.log(
+    `Found ${updatedFiles.length} updated files and ${removedFiles.length} removed files.`,
+  );
+
   await Deno.mkdir(fileCacheDir, { recursive: true });
   await Deno.writeTextFile(sourceHashesFile, JSON.stringify(hashes));
 
@@ -83,6 +87,7 @@ if (import.meta.main) {
   }
   await Deno.remove(lockFile);
 
+  console.log("Copying cached compiled files into BP and RP directories.");
   await Promise.all([
     Deno.mkdir("BP").then(() => copyDir(join(fileCacheDir, "BP"), "BP")),
     Deno.mkdir("RP").then(() => copyDir(join(fileCacheDir, "RP"), "RP")),
