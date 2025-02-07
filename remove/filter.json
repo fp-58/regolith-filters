@@ -1,0 +1,9 @@
+{
+  "description": "A filter that removes files and directories based on glob patterns.",
+  "filters": [
+    {
+      "runWith": "python",
+      "script": "./main.py"
+    }
+  ]
+}
